@@ -16,8 +16,7 @@ import java.util.stream.Collectors;
 
 public class FormRecognizer {
   //use your `key` and `endpoint` environment variables
-  private static final String endpoint = "https://tornadoesdocint.cognitiveservices.azure.com";
-  private static final String key = "59a0ca13024b439faeb9fab739565eb2";
+  
 
   public static void main(final String[] args) {
 
