@@ -6,9 +6,12 @@ import com.azure.ai.formrecognizer.documentanalysis.DocumentAnalysisClientBuilde
 
 import com.azure.core.credential.AzureKeyCredential;
 import com.azure.core.util.polling.SyncPoller;
+import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.sql.Array;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.time.LocalDate;
 import java.util.Map;
@@ -28,7 +31,7 @@ public class FormRecognizer {
 
 //sample document
 String layoutDocumentUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/rest-api/layout.png";
-String modelId = "prebuilt-layout";
+String modelId = "prebuilt-document";
 
 SyncPoller < OperationResult, AnalyzeResult > analyzeLayoutResultPoller =
   client.beginAnalyzeDocumentFromUrl(modelId, layoutDocumentUrl);
@@ -43,7 +46,7 @@ analyzeLayoutResult.getPages().forEach(documentPage -> {
     documentPage.getUnit());
 
   // lines
-  documentPage.getLines().forEach(documentLine ->
+   /*documentPage.getLines().forEach(documentLine ->
     System.out.printf("Line %s is within a bounding polygon %s.%n",
       documentLine.getContent(),
       documentLine.getBoundingPolygon().toString()));
@@ -52,7 +55,7 @@ analyzeLayoutResult.getPages().forEach(documentPage -> {
   documentPage.getWords().forEach(documentWord ->
     System.out.printf("Word '%s' has a confidence score of %.2f%n",
       documentWord.getContent(),
-      documentWord.getConfidence()));
+      documentWord.getConfidence()));*/
 
   // selection marks
   documentPage.getSelectionMarks().forEach(documentSelectionMark ->
@@ -75,6 +78,26 @@ for (int i = 0; i < tables.size(); i++) {
   System.out.println();
 }
 
+
+List<Doc> list = new ArrayList<Doc>();
+// Key-value pairs
+analyzeLayoutResult.getKeyValuePairs().forEach(documentKeyValuePair -> {
+  Doc doc = new Doc();
+  System.out.printf("Key content: %s%n", documentKeyValuePair.getKey().getContent());
+ /*  System.out.printf("Key content bounding region: %s%n",
+    documentKeyValuePair.getKey().getBoundingRegions().toString());*/
+   doc.setKey(documentKeyValuePair.getKey().getContent());
+  if (documentKeyValuePair.getValue() != null) {
+    System.out.printf("Value content: %s%n", documentKeyValuePair.getValue().getContent());
+  //  System.out.printf("Value content bounding region: %s%n", documentKeyValuePair.getValue().getBoundingRegions().toString());
+  doc.setValue(documentKeyValuePair.getValue().getContent());
+  }
+ list.add(doc);
+
+});
+
+String json = new Gson().toJson(list );
+System.out.printf(json);
 }
 
 // Utility function to get the bounding polygon coordinates.
