@@ -8,20 +8,17 @@ import com.azure.core.credential.AzureKeyCredential;
 import com.azure.core.util.polling.SyncPoller;
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.sql.Array;
+
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.time.LocalDate;
-import java.util.Map;
+
 import java.util.stream.Collectors;
 
 public class FormRecognizer {
   //use your `key` and `endpoint` environment variables
   private static final String endpoint = "";
   private static final String key ="";
-  
+
   public static void main(final String[] args) {
 
       // create your `DocumentAnalysisClient` instance and `AzureKeyCredential` variable
