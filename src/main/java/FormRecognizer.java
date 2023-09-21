@@ -19,8 +19,9 @@ import java.util.stream.Collectors;
 
 public class FormRecognizer {
   //use your `key` and `endpoint` environment variables
-
-
+  private static final String endpoint = "";
+  private static final String key ="";
+  
   public static void main(final String[] args) {
 
       // create your `DocumentAnalysisClient` instance and `AzureKeyCredential` variable
